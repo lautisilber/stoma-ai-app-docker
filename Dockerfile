@@ -1,11 +1,11 @@
 FROM python:3.9.18-slim-bookworm
 
-RUN apt update && apt install -y \
-    build-essential \
-    curl \
-    software-properties-common \
-    git \
-    python3-launchpadlib
+RUN apt update
+RUN apt install -y build-essential
+RUN apt install -y curl
+RUN apt install -y software-properties-common
+RUN apt install -y git
+RUN apt install -y python3-launchpadlib
 # https://stackoverflow.com/questions/55313610/importerror-libgl-so-1-cannot-open-shared-object-file-no-such-file-or-directo
 #RUN apt install -y ffmpeg libsm6 libxext6
 RUN apt install -y libgl1
@@ -18,6 +18,11 @@ WORKDIR /SAI-app
 RUN rm requirements.txt setup.sh
 COPY requirements.txt ./
 COPY setup.sh ./
+
+RUN pip3 install --upgrade pip
+RUN pip3 install torch==1.11.0
+RUN pip3 install torchvision==0.12.0
+RUN pip3 install torchaudio==0.11.0
 RUN bash setup.sh
 
 EXPOSE 8501
